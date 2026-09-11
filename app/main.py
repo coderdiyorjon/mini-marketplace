@@ -1,11 +1,21 @@
-from pydantic_settings import BaseSettings
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from app.db.database import Database
+from app.api.auth import router as auth_router
 
-class Settings(BaseSettings):
-    DATABASE_URL: str = ""
-    REDIS_URL: str = ""
-    JWT_SECRET: str = ""
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await Database.connect()
+    yield
+    await Database.disconnect()
 
-    class Config:
-        env_file = ".env"
+app = FastAPI(
+    title="Mini Marketplace API",
+    lifespan=lifespan
+)
 
-settings = Settings()
+app.include_router(auth_router)
+
+@app.get("/health")
+async def health_check():
+    return {"status": "Databse connects automaticaly"}
