@@ -42,3 +42,5 @@ async def get_product(product_id: str):
     await RedisCache.set(cache_key, json.dumps(product_dict), ex=3600)
     
     return product_dict
+
+# 

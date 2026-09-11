@@ -18,3 +18,11 @@ class ProductResponse(BaseModel):
     name: str
     price: float
     stock_quantity: int
+
+class OrderItemCreate(BaseModel):
+    product_id: str
+    quantity: int
+
+class OrderCreate(BaseModel):
+    items: list[OrderItemCreate]
+    
