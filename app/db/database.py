@@ -1,6 +1,9 @@
 from typing import Optional
+
 import asyncpg
+
 from app.core.config import settings
+
 
 class Database:
     pool: Optional[asyncpg.Pool] = None
